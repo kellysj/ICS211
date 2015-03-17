@@ -247,14 +247,14 @@ public class MyLinkedList<E> implements List211<E>,Iterable<E>{
 	 * @param entry the element to add
 	 */
 	public void addAfter(DLinkedNode<E> node, E entry) {
-		if( null != node.next){//checks to see if not at the end of the list
-			DLinkedNode temp = new DLinkedNode(entry,node.next,node);
-			node.next.prev = temp;
-			node.next = temp;
-		}
-		else{//only for end of list adds, sets tail
+		if( node.next == null){//checks to see if not at the end of the list
 			DLinkedNode temp = new DLinkedNode(entry,null,node);
 			tail = temp;
+			node.next = temp;
+		}
+		else{//only for end of list adds, sets tail			
+			DLinkedNode temp = new DLinkedNode(entry,node.next,node);
+			node.next.prev = temp;
 			node.next = temp;
 		}
 		size++;
@@ -272,6 +272,7 @@ public class MyLinkedList<E> implements List211<E>,Iterable<E>{
 		}
 		else{
 			DLinkedNode temp = new DLinkedNode(entry,node,node.prev);
+			node.prev.next = temp;
 			node.prev = temp;
 		}
 		size++;
