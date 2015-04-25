@@ -1,36 +1,20 @@
-package HW1;
-import java.util.*;
-import java.math.*;
+package HW10;
 
-/*
-ICS 211 Homework A01: Sorting Arrays
+import java.util.Comparator;
 
-Create a Generic Java class named ArraySort that has three methods:
 
-public void insertionSort(E[] data, Comparator<? super E> compare);
-public void bubbleSort(E[] data, Comparator<? super E> compare);
-public void selectionSort(E[] data, Comparator<? super E> compare);
-
-Each method should implement the named simple sort algorithm on the array data. Use the Comparator<E> to determine the order of the items in the array. Sort the arrays in ascending order. The �smallest� element should be in position 0, �largest� in array.length - 1.
-
-The methods should keep track of the number of comparisons, number of swaps and the amount of time it took to sort the array. To record the time taken, your code should call System.nanoTime at the beginning of each of the methods and save the value as the start time. It should then call System.nanoTime again at the end, and print the difference between the two times. The difference may be zero if your system clock does not update the time quickly enough, but otherwise should accurately report how many nanoseconds (billionths of a second) it took to execute your code. When the sort methods complete they should report the number of comparison, swaps, and the execution time in nanoseconds.
-
-Be sure to thoroughly test your code. Turn in your test code along with your Class.
-Algorithm Analysis
-
-Write up a runtime analysis of each of the sorting methods, giving the big-O of each, and explaining how you got your results. Send your analysis to the TA together with your code. This part counts for 25% of the grade on this assignment. Even if your code doesn�t work, you should do this part to the best of your ability.
-*/
-
-public class HW1{
+public class proto{
 public static void main(String args[]){
 	int length = 100;
-	HW1 run = new HW1();
+	proto run = new proto();
 	Double testD1[] = run.arraygenD(length);
 	Double testD2[] = run.arraygenD(length);
 	Double testD3[] = run.arraygenD(length);
+	Double testD4[] = run.arraygenD(4);
 	String testS1[] = run.arraygenS(length);
 	String testS2[] = run.arraygenS(length);
 	String testS3[] = run.arraygenS(length);
+	//String testS4[] = run.arraygenS(4);
 	Double testz[] = new Double[0];
 	Double testn[] = new Double[5];
 	Comparator<String> compS = new Comparator<String>(){
@@ -48,6 +32,8 @@ public static void main(String args[]){
 		}
 	};
 	System.out.println("Double");
+	run.mergeSort(testD4, compD);
+	/**
 	run.insertionSort(testD2, compD);
 	run.selectionSort(testD1, compD);
 	run.bubbleSort(testD3, compD);	
@@ -59,10 +45,91 @@ public static void main(String args[]){
 	run.insertionSort(testz, compD);
 	run.selectionSort(testz, compD);
 	run.bubbleSort(testz, compD);
+	**/
 	//run.insertionSort(testn, compD);
 	//run.selectionSort(testn, compD);
 	//run.bubbleSort(testn, compD);
 }
+
+public <E> void heapSort(E[] data, Comparator<? super E> compare){
+	
+};
+public <E>  void mergeSort(E[] data, Comparator<? super E> compare){
+	E[] buffer = (E[]) new Object[data.length];
+	copyA(data,0,data.length,buffer);
+	//System.out.println(printg(data));
+	int length = 2;
+	While
+	merge(data, 0,1,1, buffer, compare);
+	copyA(data,0,1,buffer);
+	merge(data, 2,3,3, buffer, compare);
+	copyA(data,2,3,buffer);
+	merge(data,0,2,3,buffer, compare);
+	
+};
+/**
+ * Merges left and right, sorted arrays into result. Result is large enough
+ * to hold both left and right.
+ * @param left a sorted array.
+ * @param right a sorted array.
+ * @param result the sorted combination of left and right.
+ */
+public <E> void merge(E[] preSort, int ileft, int iright, int iend, E[] buffer, Comparator<? super E> compare) {//I am going to assume that result is right.length+left.length
+	System.out.println("pre: " + printg(preSort));
+	int leftCount = ileft;
+	  int rightCount = iright;
+	  int resultCount = ileft;
+	  Comparator<? super E> c = compare;
+	  int i =0;
+	  while(leftCount<iright&&rightCount<=iend){
+		  i++;
+		  //System.out.println("doin' it");
+		  int check = c.compare(buffer[rightCount], buffer[leftCount]);
+		  //System.out.println(buffer[rightCount] + ":" + buffer[leftCount]);
+		  if(check<=0){
+			  //E temp = preSort[resultCount];
+			  preSort[resultCount]= buffer[rightCount];
+			  rightCount++;
+			  resultCount++;
+		  }
+		  else if(check>0){
+			  preSort[resultCount]= buffer[leftCount];
+			  leftCount++;
+			  resultCount++;
+		  }
+		 //System.out.println("iteration: " + i + printg(preSort));
+	  }
+	  //System.out.println(printg(preSort) + "\n" + leftCount + ":" + iright + "\n" + rightCount + ":" + iend + "\n" + resultCount);
+	  //at this point one of the arrays to be merged has been completely copied, 
+	  //now the remainder of the incompletely added array is copied to the result
+	  while(rightCount<=iend){
+		  //System.out.println("left loop");
+		  
+		  preSort[resultCount]= buffer[rightCount];
+		  //System.out.println("copying rest of right" + printg(preSort));
+		  rightCount++;
+		  resultCount++;
+	  }
+	  while(leftCount<iright){
+		  //System.out.println("right loop");
+		  
+		  preSort[resultCount]= buffer[leftCount];
+		  //System.out.println("copying rest of left" + printg(preSort));
+		  leftCount++;
+		  resultCount++;
+	  }
+	  System.out.println("final" + printg(preSort));
+}
+
+private <E> void copyA(E[] input,int start, int end, E[] output){
+	for(int i=0;i<input.length;i++){
+		output[i] = input[i];
+	}
+}
+
+public <E> void quickSort(E[] data, Comparator<? super E> compare){
+	
+};
 
 public <E> void selectionSort(E[] data, Comparator<? super E> compare){
 	String print_out = "original: " + printg(data) + "\n";//creating console output
@@ -201,5 +268,3 @@ public <E> String printg(E[] data){
 	return to_print;
 }
 }
-
-

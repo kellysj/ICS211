@@ -211,7 +211,7 @@ public class MyLinkedList<E> implements List211 {
 	public int size() {
 		return this.size;
 	}
-
+	
 	/**
 	 * insertion sort method for putting the values in ascending order
 	 * 
